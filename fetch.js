@@ -1,34 +1,48 @@
-const Product=document.getElementById("product");
+document.addEventListener("DOMContentLoaded", () => {
+  const productsList = document.getElementById("products");
 
-fetch('https://fakestoreapi.com/products')
-  .then((response) => response.json())
-  .then((data) => {
-    data.forEach((product) => {
+  if (!productsList) {
+    console.error("Error: Element with ID 'product' not found.");
+    return;
+  }
 
-      const productContainer = document.createElement('div');
-      productContainer.classList.add('product'); 
+  fetch("https://dummyjson.com/products")
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      return response.json();
+    })
+    .then((data) => {
+      data.products.forEach((product) => {
+        const productContainer = document.createElement("div");
+        productContainer.classList.add("product");
 
-      const title = document.createElement('h2');
-      title.textContent = product.title;
+        const title = document.createElement("h2");
+        title.textContent = product.title;
 
-      const price = document.createElement('p');
-      price.textContent = `Price: $${product.price}`;
+        const price = document.createElement("p");
+        price.textContent = `Price: $${product.price}`;
 
-      const category = document.createElement('p');
-      category.textContent = `Category: ${product.category}`;
+        const category = document.createElement("p");
+        category.textContent = `Category: ${product.category}`;
 
-      const image = document.createElement('img');
-      image.src = product.image;
-      image.alt = product.title;
+        const image = document.createElement("img");
+        image.src = product.thumbnail; // Ensure correct property name
+        image.alt = product.title;
 
-      productContainer.appendChild(image);
-      productContainer.appendChild(title);
-      productContainer.appendChild(price);
-      productContainer.appendChild(category);
+        productContainer.appendChild(image);
+        productContainer.appendChild(title);
+        productContainer.appendChild(price);
+        productContainer.appendChild(category);
 
-      Product.appendChild(productContainer);
+        productsList.appendChild(productContainer);
+      });
+    })
+    .catch((error) => {
+      console.error("Error fetching data:", error);
+      const errorMessage = document.createElement("p");
+      errorMessage.textContent = "Failed to load products. Please try again later.";
+      productsList.appendChild(errorMessage);
     });
-  })
-  .catch((error) => {
-    console.error('Error fetching data:', error);
-  });
+});
