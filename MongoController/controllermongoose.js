@@ -1,9 +1,7 @@
 const mongoose = require('mongoose');
 
-// MongoDB connection string
 const url = 'mongodb://localhost:27017/mongostudy';
 
-// Connect to MongoDB using Mongoose
 async function connectToMongoDB() {
     try {
         await mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true });
@@ -13,17 +11,14 @@ async function connectToMongoDB() {
     }
 }
 
-// Define a Schema for the `products` collection
 const productSchema = new mongoose.Schema({
     customer: { type: String, required: true },
     total: { type: Number, required: true },
-    items: { type: [String], default: [] } // Optional array of items
+    items: { type: [String], default: [] } 
 });
 
-// Create a Mongoose Model
 const Product = mongoose.model('Product', productSchema);
 
-// Fetch all products (connectToMongo equivalent)
 async function fetchProducts(req, res) {
     try {
         const products = await Product.find({});
@@ -34,7 +29,6 @@ async function fetchProducts(req, res) {
     }
 }
 
-// Add a new product (connectToMongo2 equivalent)
 async function addProduct(req, res) {
     try {
         const newProduct = new Product(req.body);
