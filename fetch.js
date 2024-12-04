@@ -3,7 +3,7 @@ const productsList=document.getElementById("products");
 fetch('https://dummyjson.com/products')
   .then((response) => response.json())
   .then((data) => {
-    data.products.forEach((product) => {
+    data.products.map((product) => {
       const productContainer = document.createElement('div');
       productContainer.classList.add('product'); 
 
