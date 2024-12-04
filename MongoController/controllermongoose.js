@@ -19,7 +19,7 @@ const productSchema = new mongoose.Schema({
 
 const Product = mongoose.model('Product', productSchema);
 
-async function fetchProducts(req, res) {
+const fetchProducts=async (req, res)=> {
     try {
         const products = await Product.find({});
         res.status(200).json(products);
@@ -29,7 +29,7 @@ async function fetchProducts(req, res) {
     }
 }
 
-async function addProduct(req, res) {
+const addProduct= async (req, res)=> {
     try {
         const newProduct = new Product(req.body);
         const savedProduct = await newProduct.save();
